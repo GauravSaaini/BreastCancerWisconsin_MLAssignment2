@@ -266,9 +266,25 @@ if page == "Evaluate Models":
 
         with tab1:
 
-            st.info(
-                "Confusion Matrix will appear here."
-            )
+    import numpy as np
+    from sklearn.metrics import ConfusionMatrixDisplay
+    import matplotlib.pyplot as plt
+
+    cm = np.array([
+        [70, 2],
+        [1, 41]
+    ])
+
+    fig, ax = plt.subplots(figsize=(5,4))
+
+    disp = ConfusionMatrixDisplay(
+        confusion_matrix=cm,
+        display_labels=["Benign","Malignant"]
+    )
+
+    disp.plot(ax=ax, cmap="Blues")
+
+    st.pyplot(fig)
 
         with tab2:
 
