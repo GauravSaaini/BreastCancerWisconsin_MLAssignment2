@@ -184,7 +184,10 @@ if page == "Compare Models":
     if file_path.exists():
         df = pd.read_csv(file_path)
 
-        st.dataframe(df)
+        st.dataframe(
+    df,
+    use_container_width=True
+)
 
         numeric_cols = [
             "Accuracy",
