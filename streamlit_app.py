@@ -1,6 +1,7 @@
-!pip install ...
-%matplotlib inline
-!apt-get ...
+import streamlit as st
+import pandas as pd
+import numpy as np
+import joblib
 from sklearn.calibration import CalibratedClassifierCV
 """
 ML Assignment 2
