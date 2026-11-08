@@ -31,6 +31,21 @@ if page == "Overview":
 
     st.markdown("""
     ### Models Included
+    st.subheader("Dataset Preview")
+
+df = pd.read_csv(
+    "wdbc.data",
+    header=None
+)
+
+st.write(
+    f"Rows: {df.shape[0]} | Columns: {df.shape[1]}"
+)
+
+st.dataframe(
+    df.head(10),
+    use_container_width=True
+)
 
     - Logistic Regression
     - Decision Tree
