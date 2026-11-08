@@ -1,9 +1,26 @@
+from sklearn.metrics import (
+    accuracy_score,
+    precision_score,
+    recall_score,
+    f1_score,
+    matthews_corrcoef,
+    confusion_matrix,
+    classification_report,
+    ConfusionMatrixDisplay
+)
 import streamlit as st
 import pandas as pd
 import joblib
 import numpy as np
 import matplotlib.pyplot as plt
 from pathlib import Path
+MODEL_FILES = {
+    "Logistic Regression": "logistic_regression.joblib",
+    "Decision Tree": "decision_tree.joblib",
+    "KNN": "knn.joblib",
+    "Naive Bayes": "naive_bayes.joblib",
+    "SVM": "svm.joblib"
+}
 
 st.set_page_config(
     page_title="Breast Cancer Wisconsin Classification",
@@ -241,20 +258,76 @@ if page == "Evaluate Models":
 
     if uploaded_file is not None:
 
-        test_df = pd.read_csv(uploaded_file)
+    test_df = pd.read_csv(uploaded_file)
 
-        st.success(
-            f"Loaded {len(test_df)} test records."
-        )
+    model = joblib.load(
+        Path("model") /
+        MODEL_FILES[model_name]
+    )
 
-        c1, c2, c3, c4, c5, c6 = st.columns(6)
+    X = test_df.drop(
+        columns=["diagnosis"]
+    )
 
-        c1.metric("Accuracy", "0.9737")
-        c2.metric("AUC", "0.9947")
-        c3.metric("Precision", "0.9756")
-        c4.metric("Recall", "0.9524")
-        c5.metric("F1", "0.9639")
-        c6.metric("MCC", "0.9433")
+    y_true = test_df["diagnosis"]
+
+    y_pred = model.predict(X)
+
+    accuracy = accuracy_score(
+        y_true,
+        y_pred
+    )
+
+    precision = precision_score(
+        y_true,
+        y_pred
+    )
+
+    recall = recall_score(
+        y_true,
+        y_pred
+    )
+
+    f1 = f1_score(
+        y_true,
+        y_pred
+    )
+
+    mcc = matthews_corrcoef(
+        y_true,
+        y_pred
+    )
+
+    st.success(
+        f"Loaded {len(test_df)} test records."
+    )
+
+    c1,c2,c3,c4,c5 = st.columns(5)
+
+    c1.metric(
+        "Accuracy",
+        f"{accuracy:.4f}"
+    )
+
+    c2.metric(
+        "Precision",
+        f"{precision:.4f}"
+    )
+
+    c3.metric(
+        "Recall",
+        f"{recall:.4f}"
+    )
+
+    c4.metric(
+        "F1",
+        f"{f1:.4f}"
+    )
+
+    c5.metric(
+        "MCC",
+        f"{mcc:.4f}"
+    )
 
         tab1, tab2, tab3 = st.tabs(
             [
@@ -264,46 +337,47 @@ if page == "Evaluate Models":
             ]
         )
 
-        with tab1:
+     with tab1:
 
-    import numpy as np
-    from sklearn.metrics import ConfusionMatrixDisplay
-    import matplotlib.pyplot as plt
+    cm = confusion_matrix(
+        y_true,
+        y_pred
+    )
 
-    cm = np.array([
-        [70, 2],
-        [1, 41]
-    ])
-
-    fig, ax = plt.subplots(figsize=(5,4))
+    fig, ax = plt.subplots()
 
     disp = ConfusionMatrixDisplay(
         confusion_matrix=cm,
-        display_labels=["Benign","Malignant"]
+        display_labels=[
+            "Benign",
+            "Malignant"
+        ]
     )
 
-    disp.plot(ax=ax, cmap="Blues")
+    disp.plot(
+        ax=ax,
+        cmap="Blues"
+    )
 
     st.pyplot(fig)
 
         with tab2:
 
-            report_df = pd.DataFrame(
-                {
-                    "precision": [0.97, 0.95],
-                    "recall": [0.95, 0.97],
-                    "f1-score": [0.96, 0.96]
-                },
-                index=[
-                    "Benign",
-                    "Malignant"
-                ]
-            )
+    report = classification_report(
+        y_true,
+        y_pred,
+        output_dict=True
+    )
 
-            st.dataframe(
-                report_df,
-                use_container_width=True
-            )
+    report_df = pd.DataFrame(
+        report
+    ).T
+
+    st.dataframe(
+        report_df,
+        use_container_width=True
+    )
+
 
         with tab3:
 
