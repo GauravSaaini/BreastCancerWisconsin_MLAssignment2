@@ -61,7 +61,7 @@ RESULT_DIR.mkdir(parents=True, exist_ok=True)
 # ==================================================
 
 DATASET_PATH = Path(
-    r"/home/s2026ak05713/workspace/wdbc.data"
+    r"DATASET_PATH = ROOT / "wdbc.csv"
 )
 
 
