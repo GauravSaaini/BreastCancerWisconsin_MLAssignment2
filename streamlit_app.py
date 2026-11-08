@@ -182,12 +182,13 @@ if page == "Compare Models":
     file_path = Path("results/model_comparison.csv")
 
     if file_path.exists():
+
         df = pd.read_csv(file_path)
 
         st.dataframe(
-    df,
-    use_container_width=True
-)
+            df,
+            use_container_width=True
+        )
 
         numeric_cols = [
             "Accuracy",
@@ -202,7 +203,15 @@ if page == "Compare Models":
             df.set_index("Model")[numeric_cols]
         )
 
+        st.download_button(
+            "Download Comparison CSV",
+            df.to_csv(index=False),
+            "model_comparison.csv",
+            "text/csv"
+        )
+
     else:
+
         st.error(
             "model_comparison.csv not found."
         )
