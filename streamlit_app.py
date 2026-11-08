@@ -41,11 +41,50 @@ if page == "Overview":
 
 if page == "Dataset & Methodology":
 
-    st.header("Dataset Information")
+    st.header("Dataset and Methodology")
 
-    st.write(
-        "Breast Cancer Wisconsin Diagnostic Dataset"
-    )
+    st.markdown("""
+    ## Dataset
+
+    Breast Cancer Wisconsin Diagnostic Dataset
+
+    ## Objective
+
+    Predict whether a tumor is:
+
+    - Benign (0)
+    - Malignant (1)
+
+    ## Dataset Characteristics
+
+    - Total Samples: 569
+    - Total Features: 30
+    - Target Classes: 2
+
+    ## Data Preparation
+
+    - Median Imputation
+    - Standard Scaling
+    - Train Test Split (80/20)
+    - Random State = 42
+
+    ## Models Evaluated
+
+    1. Logistic Regression
+    2. Decision Tree
+    3. K-Nearest Neighbors
+    4. Gaussian Naive Bayes
+    5. Support Vector Machine
+
+    ## Evaluation Metrics
+
+    - Accuracy
+    - ROC AUC
+    - Precision
+    - Recall
+    - F1 Score
+    - MCC
+    """)
 
 if page == "Compare Models":
 
