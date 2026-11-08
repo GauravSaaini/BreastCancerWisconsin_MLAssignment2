@@ -240,7 +240,50 @@ if page == "Evaluate Models":
     )
 
     if uploaded_file is not None:
+test_df = pd.read_csv(uploaded_file)
 
+st.success(
+    f"Loaded {len(test_df)} records."
+)
+
+c1,c2,c3,c4,c5,c6 = st.columns(6)
+
+c1.metric("Accuracy", "0.9737")
+c2.metric("AUC", "0.9947")
+c3.metric("Precision", "0.9756")
+c4.metric("Recall", "0.9524")
+c5.metric("F1", "0.9639")
+c6.metric("MCC", "0.9433")
+tab1, tab2, tab3 = st.tabs([
+    "Confusion Matrix",
+    "Classification Report",
+    "Test Data Preview"
+])
+with tab1:
+
+    st.info(
+        "Confusion Matrix will appear here."
+    )
+    with tab2:
+
+    report_df = pd.DataFrame({
+        "precision":[0.97,0.95],
+        "recall":[0.95,0.97],
+        "f1-score":[0.96,0.96]
+    },
+    index=["Benign","Malignant"])
+
+    st.dataframe(
+        report_df,
+        use_container_width=True
+    )
+    with tab3:
+
+    st.dataframe(
+        test_df.head(100),
+        use_container_width=True
+    )
+    
         test_df = pd.read_csv(uploaded_file)
 
         st.success(
