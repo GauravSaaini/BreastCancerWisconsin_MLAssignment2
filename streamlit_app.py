@@ -7,16 +7,39 @@ st.set_page_config(
     layout="wide"
 )
 
-page = st.sidebar.radio(
-    "Navigation",
-    [
-        "Overview",
-        "Evaluate Models",
-        "Compare Models",
-        "Dataset & Methodology"
-    ]
-)
+with st.sidebar:
 
+    st.markdown("## 🎗️ Breast Cancer")
+    st.caption("ML Assignment 2")
+
+    page = st.radio(
+        "NAVIGATION",
+        [
+            "Overview",
+            "Evaluate Models",
+            "Compare Models",
+            "Dataset & Methodology"
+        ]
+    )
+
+    st.divider()
+
+    st.markdown("### Test Dataset")
+
+    uploaded_file = st.file_uploader(
+        "Upload a labelled test CSV",
+        type=["csv"]
+    )
+
+    st.caption(
+        "Expected target column: diagnosis"
+    )
+
+    st.divider()
+
+    st.caption(
+        "Models are loaded from saved joblib pipelines."
+    )
 if page == "Overview":
 
     st.markdown("""
