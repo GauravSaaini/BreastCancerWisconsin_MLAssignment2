@@ -258,76 +258,74 @@ if page == "Evaluate Models":
 
     if uploaded_file is not None:
 
-    test_df = pd.read_csv(uploaded_file)
+        test_df = pd.read_csv(uploaded_file)
 
-    model = joblib.load(
-        Path("model") /
-        MODEL_FILES[model_name]
-    )
+        model = joblib.load(
+            Path("model") /
+            MODEL_FILES[model_name]
+        )
 
-    X = test_df.drop(
-        columns=["diagnosis"]
-    )
+        X = test_df.drop(columns=["diagnosis"])
 
-    y_true = test_df["diagnosis"]
+        y_true = test_df["diagnosis"]
 
-    y_pred = model.predict(X)
+        y_pred = model.predict(X)
 
-    accuracy = accuracy_score(
-        y_true,
-        y_pred
-    )
+        accuracy = accuracy_score(
+            y_true,
+            y_pred
+        )
 
-    precision = precision_score(
-        y_true,
-        y_pred
-    )
+        precision = precision_score(
+            y_true,
+            y_pred
+        )
 
-    recall = recall_score(
-        y_true,
-        y_pred
-    )
+        recall = recall_score(
+            y_true,
+            y_pred
+        )
 
-    f1 = f1_score(
-        y_true,
-        y_pred
-    )
+        f1 = f1_score(
+            y_true,
+            y_pred
+        )
 
-    mcc = matthews_corrcoef(
-        y_true,
-        y_pred
-    )
+        mcc = matthews_corrcoef(
+            y_true,
+            y_pred
+        )
 
-    st.success(
-        f"Loaded {len(test_df)} test records."
-    )
+        st.success(
+            f"Loaded {len(test_df)} test records."
+        )
 
-    c1,c2,c3,c4,c5 = st.columns(5)
+        c1, c2, c3, c4, c5 = st.columns(5)
 
-    c1.metric(
-        "Accuracy",
-        f"{accuracy:.4f}"
-    )
+        c1.metric(
+            "Accuracy",
+            f"{accuracy:.4f}"
+        )
 
-    c2.metric(
-        "Precision",
-        f"{precision:.4f}"
-    )
+        c2.metric(
+            "Precision",
+            f"{precision:.4f}"
+        )
 
-    c3.metric(
-        "Recall",
-        f"{recall:.4f}"
-    )
+        c3.metric(
+            "Recall",
+            f"{recall:.4f}"
+        )
 
-    c4.metric(
-        "F1",
-        f"{f1:.4f}"
-    )
+        c4.metric(
+            "F1",
+            f"{f1:.4f}"
+        )
 
-    c5.metric(
-        "MCC",
-        f"{mcc:.4f}"
-    )
+        c5.metric(
+            "MCC",
+            f"{mcc:.4f}"
+        )
 
         tab1, tab2, tab3 = st.tabs(
             [
@@ -337,47 +335,46 @@ if page == "Evaluate Models":
             ]
         )
 
-     with tab1:
+        with tab1:
 
-    cm = confusion_matrix(
-        y_true,
-        y_pred
-    )
+            cm = confusion_matrix(
+                y_true,
+                y_pred
+            )
 
-    fig, ax = plt.subplots()
+            fig, ax = plt.subplots()
 
-    disp = ConfusionMatrixDisplay(
-        confusion_matrix=cm,
-        display_labels=[
-            "Benign",
-            "Malignant"
-        ]
-    )
+            disp = ConfusionMatrixDisplay(
+                confusion_matrix=cm,
+                display_labels=[
+                    "Benign",
+                    "Malignant"
+                ]
+            )
 
-    disp.plot(
-        ax=ax,
-        cmap="Blues"
-    )
+            disp.plot(
+                ax=ax,
+                cmap="Blues"
+            )
 
-    st.pyplot(fig)
+            st.pyplot(fig)
 
         with tab2:
 
-    report = classification_report(
-        y_true,
-        y_pred,
-        output_dict=True
-    )
+            report = classification_report(
+                y_true,
+                y_pred,
+                output_dict=True
+            )
 
-    report_df = pd.DataFrame(
-        report
-    ).T
+            report_df = pd.DataFrame(
+                report
+            ).T
 
-    st.dataframe(
-        report_df,
-        use_container_width=True
-    )
-
+            st.dataframe(
+                report_df,
+                use_container_width=True
+            )
 
         with tab3:
 
