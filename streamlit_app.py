@@ -190,6 +190,11 @@ if page == "Compare Models":
             use_container_width=True
         )
 
+        st.success(
+            "🏆 Best Model: Support Vector Machine "
+            "(Accuracy = 97.37%, F1 = 0.9639, MCC = 0.9433)"
+        )
+
         numeric_cols = [
             "Accuracy",
             "AUC",
