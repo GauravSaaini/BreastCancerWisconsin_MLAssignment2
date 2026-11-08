@@ -19,40 +19,91 @@ page = st.sidebar.radio(
 
 if page == "Overview":
 
-    st.title("Breast Cancer Wisconsin Classification")
+    st.markdown("""
+    <div style="
+    background:linear-gradient(90deg,#4FC3F7,#81D4FA);
+    padding:25px;
+    border-radius:15px;
+    color:white;
+    margin-bottom:15px;
+    ">
+    <h1>Breast Cancer Wisconsin Classification</h1>
+    <p>
+    Evaluate five machine-learning classifiers for breast cancer diagnosis using a labelled dataset.
+    </p>
+    </div>
+    """, unsafe_allow_html=True)
 
     c1, c2, c3 = st.columns(3)
 
     c1.metric("Algorithms", "5")
-    c2.metric("Metrics", "6")
-    c3.metric("Retraining", "No")
+    c2.metric("Evaluation Metrics", "6")
+    c3.metric("Retraining in app", "No")
 
-    st.subheader("Project Overview")
+    st.subheader("Project at a glance")
 
-    st.markdown("""
-    ### Models Included
-    st.subheader("Dataset Preview")
+    left, right = st.columns([1.3, 1])
 
-df = pd.read_csv(
-    "wdbc.data",
-    header=None
-)
+    with left:
 
-st.write(
-    f"Rows: {df.shape[0]} | Columns: {df.shape[1]}"
-)
+        st.markdown("""
+        ### Objective
 
-st.dataframe(
-    df.head(10),
-    use_container_width=True
-)
+        Predict whether a tumour is:
 
-    - Logistic Regression
-    - Decision Tree
-    - K-Nearest Neighbors
-    - Gaussian Naive Bayes
-    - Support Vector Machine
-    """)
+        - Benign (0)
+        - Malignant (1)
+
+        using machine learning classification algorithms.
+
+        ### Models included
+
+        - Logistic Regression
+        - Decision Tree
+        - K-Nearest Neighbors
+        - Gaussian Naive Bayes
+        - Support Vector Machine
+        """)
+
+    with right:
+
+        st.markdown("""
+        ### Evaluation workflow
+
+        1. Load dataset
+        2. Train models
+        3. Evaluate models
+        4. Compare performance
+        5. Save results
+        """)
+
+        st.info(
+            "All models are evaluated using the same train-test split."
+        )
+
+    st.subheader("Current Dataset")
+
+    try:
+
+        df = pd.read_csv(
+            "wdbc.data",
+            header=None
+        )
+
+        st.write(
+            f"{df.shape[0]:,} rows · {df.shape[1]} columns"
+        )
+
+        st.dataframe(
+            df.head(10),
+            use_container_width=True
+        )
+
+    except Exception as e:
+
+        st.warning(
+            f"Dataset could not be loaded: {e}"
+        )
 
 if page == "Dataset & Methodology":
 
