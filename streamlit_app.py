@@ -1,4 +1,6 @@
-%pip install --upgrade numpy scipy scikit-learn
+!pip install ...
+%matplotlib inline
+!apt-get ...
 from sklearn.calibration import CalibratedClassifierCV
 """
 ML Assignment 2
