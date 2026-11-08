@@ -61,7 +61,7 @@ RESULT_DIR.mkdir(parents=True, exist_ok=True)
 # ==================================================
 
 DATASET_PATH = Path(
-    DATASET_PATH = ROOT / "wdbc.csv"
+    DATASET_PATH = ROOT / "wdbc.data"
 )
 
 
